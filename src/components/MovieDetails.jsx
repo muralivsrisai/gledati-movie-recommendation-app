@@ -10,7 +10,9 @@ import { Atom } from 'react-loading-indicators';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 export default function MovieDetails() {
+
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,6 +25,9 @@ export default function MovieDetails() {
   const [newLink, setNewLink] = useState('');
   const [newQuality, setNewQuality] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [playMovie, setPlayMovie] = useState(false);
+  const moviePlayerRef = useRef(null);
+
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -193,6 +198,20 @@ if (movieRes.data.genres) {
         <div className="details-overlay">
           <h1 className="details-title">{movie.title}</h1>
           <p className="details-tagline">{movie.overview?.slice(0, 300)}...</p>
+          <button
+  className="watch-movie-button"
+  onClick={() => {
+    setPlayMovie(true);
+    setTimeout(() => {
+      if (moviePlayerRef.current) {
+        moviePlayerRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300);
+  }}
+>
+  ▶ Watch Movie
+</button>
+
           {trailer && (
             <button
               className="trailer-button"
@@ -271,6 +290,27 @@ if (movieRes.data.genres) {
           <Trailer videoKey={trailer.key} />
         </div>
       )}
+
+      {/* Watch Movie - VidKing Player */}
+{playMovie && (
+  <div className="movie-player-section" ref={moviePlayerRef}>
+    <div className="responsive-player" ref={moviePlayerRef}>
+    <h2 style={{ marginBottom: "15px", textAlign: "center" }}>Watch Movie</h2>
+
+
+  <div className="player-wrapper">
+    <iframe
+      title={`movie-player-${movie.id}`}
+      src={`https://www.vidking.net/embed/movie/${movie.id}?autoPlay=true`}
+      allowFullScreen
+      allow="encrypted-media"
+    ></iframe>
+  </div>
+</div>
+
+  </div>
+)}
+
 
       {/* Download Links */}
       {Object.keys(downloadLinks).length > 0 && (
