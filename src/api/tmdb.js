@@ -99,3 +99,9 @@ export const fetchSeriesByGenre = (genreId, page = 1) => {
   });
 };
 
+// 📺 Episodes inside a specific season
+export const fetchSeasonEpisodes = (seriesId, seasonNumber) => {
+  return instance.get(`/series/${seriesId}/season/${seasonNumber}`);
+};
+
+

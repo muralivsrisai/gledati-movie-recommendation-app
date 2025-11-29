@@ -10,6 +10,8 @@ import axios from 'axios';
 import Trailer from './Trailer';
 import './SeriesDetails.css';
 import { Atom } from 'react-loading-indicators';
+import ModalPlayer from "./ModalPlayer";
+
 
 export default function SeriesDetails() {
   const { id } = useParams();
@@ -26,6 +28,8 @@ export default function SeriesDetails() {
   const [seasonCount, setSeasonCount] = useState(null);
   const [episodeCount, setEpisodeCount] = useState(null);
   const [similarSeries, setSimilarSeries] = useState([]);
+  const [modalSeason, setModalSeason] = useState(null);
+
 
   const { user, token } = useContext(AuthContext);
 
@@ -279,7 +283,13 @@ export default function SeriesDetails() {
           <h2 style={{ marginBottom: '16px' }}>Seasons</h2>
           <div className="seasons-list">
             {series.seasons.map((season) => (
-              <div className="season-card" key={season.id}>
+              <div
+              className="season-card"
+              key={season.id}
+              onClick={() => setModalSeason(season.season_number)}
+              style={{ cursor: "pointer" }}
+            >
+            
                 <img
                   src={
                     season.poster_path
@@ -296,6 +306,7 @@ export default function SeriesDetails() {
               </div>
             ))}
           </div>
+          
         </div>
       )}
 
@@ -388,6 +399,15 @@ export default function SeriesDetails() {
           </div>
         </div>
       )}
+      {modalSeason && (
+  <ModalPlayer
+    seriesId={series.id}
+    initialSeason={modalSeason}
+    totalSeasons={seasonCount}
+    onClose={() => setModalSeason(null)}
+  />
+)}
+
     </div>
   );
 }
