@@ -17,6 +17,11 @@ export default function MovieDetails() {
   const navigate = useNavigate();
   const location = useLocation();
   const trailerRef = useRef(null);
+  const providers = [
+  (id) => `https://www.vidking.net/embed/movie/${id}`,
+  (id) => `https://vidsrc.to/embed/movie/${id}`,
+  (id) => `https://2embed.cc/embed/${id}`,
+];
 
   const [movie, setMovie] = useState(null);
   const [watchProviders, setWatchProviders] = useState([]);
@@ -27,6 +32,7 @@ export default function MovieDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [playMovie, setPlayMovie] = useState(false);
   const moviePlayerRef = useRef(null);
+  const [providerIndex, setProviderIndex] = useState(0);
 
 
   useEffect(() => {
@@ -294,20 +300,44 @@ if (movieRes.data.genres) {
       {/* Watch Movie - VidKing Player */}
 {playMovie && (
   <div className="movie-player-section" ref={moviePlayerRef}>
-    <div className="responsive-player" ref={moviePlayerRef}>
-    <h2 style={{ marginBottom: "15px", textAlign: "center" }}>Watch Movie</h2>
+    <div className="responsive-player">
+      <h2 style={{ marginBottom: "15px", textAlign: "center" }}>
+        Watch Movie
+      </h2>
 
+      <div className="player-wrapper">
+        <iframe
+          key={providerIndex} // 🔥 important (reload iframe)
+          title={`movie-player-${movie.id}`}
+          src={providers[providerIndex](movie.id)}
+          width="100%"
+          height="500"
+          allowFullScreen
+          allow="encrypted-media; fullscreen"
+          referrerPolicy="no-referrer"
+          onError={() => {
+            console.log("❌ Provider failed:", providerIndex);
 
-  <div className="player-wrapper">
-    <iframe
-      title={`movie-player-${movie.id}`}
-      src={`https://www.vidking.net/embed/movie/${movie.id}`}
-      allowFullScreen
-      allow="encrypted-media"
-    ></iframe>
-  </div>
-</div>
+            if (providerIndex < providers.length - 1) {
+              setProviderIndex((prev) => prev + 1); // 👉 next provider
+            } else {
+              alert("All video sources failed 😢");
+            }
+          }}
+        ></iframe>
+      </div>
 
+      {/* 🔁 Manual switch button */}
+      <div style={{ textAlign: "center", marginTop: "10px" }}>
+        <button
+          onClick={() =>
+            setProviderIndex((prev) => (prev + 1) % providers.length)
+          }
+        >
+          🔄 Switch Server
+        </button>
+      </div>
+    </div>
   </div>
 )}
 
