@@ -33,7 +33,17 @@ export default function ModalPlayer({
   }, [season, seriesId]);
 
   // ⬇️ Use whatever provider you’re already using here
-  const embedUrl = `https://vidsrc.to/embed/tv/${seriesId}/${season}/${currentEpisode}`;
+  const providers = [
+  (id, s, e) => `https://www.vidking.net/embed/tv/${id}/${s}/${e}`,
+  (id, s, e) => `https://vidsrc.to/embed/tv/${id}/${s}/${e}`,
+  (id, s, e) => `https://2embed.cc/embedtv/${id}/${s}/${e}`,
+];
+
+const [providerIndex, setProviderIndex] = useState(0);
+
+useEffect(() => {
+  setProviderIndex(0);
+}, [season, currentEpisode]);
 
   const handleNext = () => {
     if (currentEpisode < episodes.length) {
@@ -120,12 +130,23 @@ export default function ModalPlayer({
 
             <div className="player-wrapper">
               <iframe
-                title={`episode-player-s${season}-e${currentEpisode}`}
-                src={embedUrl}
-                frameBorder="0"
-                allowFullScreen
-                className="player-iframe"
-              ></iframe>
+  key={providerIndex} // 🔥 forces reload
+  title={`episode-player-s${season}-e${currentEpisode}`}
+  src={providers[providerIndex](seriesId, season, currentEpisode)}
+  frameBorder="0"
+  allowFullScreen
+  className="player-iframe"
+  referrerPolicy="no-referrer"
+  onError={() => {
+    console.log("❌ Provider failed:", providerIndex);
+
+    if (providerIndex < providers.length - 1) {
+      setProviderIndex((prev) => prev + 1);
+    } else {
+      alert("All streaming servers failed 😢");
+    }
+  }}
+></iframe>
             </div>
 
             <div className="controls">
@@ -144,6 +165,15 @@ export default function ModalPlayer({
                 Next ▶
               </button>
             </div>
+            <div style={{ textAlign: "center", marginTop: "10px" }}>
+  <button
+    onClick={() =>
+      setProviderIndex((prev) => (prev + 1) % providers.length)
+    }
+  >
+    Switch Server
+  </button>
+</div>
           </section>
         </div>
       </div>
