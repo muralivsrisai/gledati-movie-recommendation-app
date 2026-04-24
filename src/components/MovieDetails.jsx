@@ -301,7 +301,7 @@ if (movieRes.data.genres) {
   <div className="player-wrapper">
     <iframe
       title={`movie-player-${movie.id}`}
-      src={`https://vidsrc.to/embed/movie/${movie.id}`}
+      src={`https://www.vidking.net/embed/movie/${movie.id}`}
       allowFullScreen
       allow="encrypted-media"
     ></iframe>
