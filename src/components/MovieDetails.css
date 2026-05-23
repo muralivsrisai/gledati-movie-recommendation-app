@@ -78,7 +78,9 @@
   border-radius: 12px;
   overflow: hidden;
   margin: auto;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  background-color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .player-wrapper iframe {
@@ -88,15 +90,16 @@
   width: 100%;
   height: 100%;
   border: none;
+  display: block;
 }
 
 /* ---- DESKTOP FIX: BIG WIDESCREEN PLAYER ---- */
 @media (min-width: 1024px) {
   .player-wrapper {
-    width: 90%;           /* A bit wider */
-    max-width: 1400px;    /* Large cinematic size */
-    height: 750px;        /* BIG height for PC */
-    padding-top: 0;       /* Stop aspect ratio shrinking */
+    width: 90%;
+    max-width: 1400px;
+    height: 750px;
+    padding-top: 0;
     border-radius: 16px;
   }
 

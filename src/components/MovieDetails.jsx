@@ -307,19 +307,20 @@ if (movieRes.data.genres) {
 
       <div className="player-wrapper">
         <iframe
-          key={providerIndex} // 🔥 important (reload iframe)
+          key={providerIndex}
           title={`movie-player-${movie.id}`}
           src={providers[providerIndex](movie.id)}
           width="100%"
           height="500"
           allowFullScreen
-          allow="encrypted-media; fullscreen"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
           referrerPolicy="no-referrer"
+          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation"
           onError={() => {
             console.log("❌ Provider failed:", providerIndex);
 
             if (providerIndex < providers.length - 1) {
-              setProviderIndex((prev) => prev + 1); // 👉 next provider
+              setProviderIndex((prev) => prev + 1);
             } else {
               alert("All video sources failed 😢");
             }
@@ -327,7 +328,7 @@ if (movieRes.data.genres) {
         ></iframe>
       </div>
 
-      {/* 🔁 Manual switch button */}
+      {/* Manual switch button */}
       <div style={{ textAlign: "center", marginTop: "10px" }}>
         <button
           onClick={() =>
