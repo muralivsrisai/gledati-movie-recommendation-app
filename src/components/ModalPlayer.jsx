@@ -171,7 +171,7 @@ useEffect(() => {
       setProviderIndex((prev) => (prev + 1) % providers.length)
     }
   >
-    Switch Server
+    Switch Server                 
   </button>
 </div>
           </section>

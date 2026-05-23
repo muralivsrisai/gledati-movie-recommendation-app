@@ -13,6 +13,8 @@ export default function Navbar({ searchQuery, setSearchQuery, handleSearch }) {
   const dropdownRef = useRef();
   const mobileMenuRef = useRef();
   const searchRef = useRef();
+  const desktopInputRef = useRef();
+  const mobileInputRef = useRef();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -41,6 +43,18 @@ export default function Navbar({ searchQuery, setSearchQuery, handleSearch }) {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (desktopSearchOpen && desktopInputRef.current) {
+      desktopInputRef.current.focus();
+    }
+  }, [desktopSearchOpen]);
+
+  useEffect(() => {
+    if (mobileSearchOpen && mobileInputRef.current) {
+      mobileInputRef.current.focus();
+    }
+  }, [mobileSearchOpen]);
 
   const handleLogout = () => {
     logout();
@@ -77,6 +91,7 @@ export default function Navbar({ searchQuery, setSearchQuery, handleSearch }) {
           <img src={searchIcon} alt="Search" className="icon" />
         </span>
         <input
+          ref={desktopInputRef}
           type="text"
           placeholder="Search movies..."
           value={searchQuery}
@@ -137,6 +152,7 @@ export default function Navbar({ searchQuery, setSearchQuery, handleSearch }) {
       {(isHomePage||isSeriesPage) && mobileSearchOpen && (
         <div className="mobile-search-bar" ref={searchRef}>
           <input
+            ref={mobileInputRef}
             type="text"
             placeholder="Search movies..."
             value={searchQuery}
