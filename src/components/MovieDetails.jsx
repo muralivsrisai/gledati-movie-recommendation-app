@@ -323,15 +323,40 @@ if (movieRes.data.genres) {
       </div>
 
       {/* Manual switch button */}
-      <div style={{ textAlign: "center", marginTop: "10px" }}>
-        <button
-          onClick={() =>
-            setProviderIndex((prev) => (prev + 1) % providers.length)
-          }
-        >
-          🔄 Switch Server
-        </button>
-      </div>
+      <div
+  style={{
+    textAlign: "center",
+    marginTop: "10px",
+    display: "flex",
+    justifyContent: "center",
+    gap: "12px",
+    flexWrap: "wrap",
+  }}
+>
+  {/* Switch Server */}
+  <button
+    onClick={() =>
+      setProviderIndex((prev) => (prev + 1) % providers.length)
+    }
+    className="player-action-btn"
+  >
+    🔄 Switch Server
+  </button>
+
+  {/* Open External Player */}
+  <button
+    onClick={() =>
+      window.open(
+        providers[providerIndex](movie.id),
+        "_blank",
+        "noopener,noreferrer"
+      )
+    }
+    className="player-action-btn"
+  >
+    ↗ Open External Player
+  </button>
+</div>
     </div>
   </div>
 )}
