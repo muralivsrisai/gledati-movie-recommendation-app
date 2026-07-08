@@ -34,9 +34,9 @@ export default function ModalPlayer({
 
   // ⬇️ Use whatever provider you’re already using here
   const providers = [
-  (id, s, e) => `https://www.vidking.net/embed/tv/${id}/${s}/${e}`,
-  (id, s, e) => `https://vidsrc.to/embed/tv/${id}/${s}/${e}`,
-  (id, s, e) => `https://2embed.cc/embedtv/${id}/${s}/${e}`,
+  (id, s, e) => `https://www.vidking.net/embed/tv/${id}/${s}/${e}?sub=default`,
+  (id, s, e) => `https://vidsrc.to/embed/tv/${id}/${s}/${e}?subs=1`,
+  (id, s, e) => `https://2embed.cc/embedtv/${id}/${s}/${e}?subs=true`,
 ];
 
 const [providerIndex, setProviderIndex] = useState(0);

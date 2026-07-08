@@ -237,16 +237,21 @@
     width: 100%;
     padding-top: 56.25%; /* 16:9 */
     border-radius: 12px;
-    overflow: hidden;
+    overflow: visible;
     background: #101010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  
+
   .modal-player-container .player-iframe {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     border: none;
+    border-radius: 12px;
   }
   
   /* Controls */

@@ -18,14 +18,14 @@ export default function MovieDetails() {
   const location = useLocation();
   const trailerRef = useRef(null);
   const providers = [
-  (id) => `https://www.vidking.net/embed/movie/${id}`,
-  (id) => `https://vidsrc.to/embed/movie/${id}`,
-  (id) => `https://2embed.cc/embed/${id}`,
+  (id) => `https://www.vidking.net/embed/movie/${id}?sub=default`,
+  (id) => `https://vidsrc.to/embed/movie/${id}?subs=1`,
+  (id) => `https://2embed.cc/embed/${id}?subs=true`,
 ];
 
   const [movie, setMovie] = useState(null);
   const [watchProviders, setWatchProviders] = useState([]);
-  const [downloadLinks, setDownloadLinks] = useState({});
+  const [downloadLinks, setDownloadLinks] = useState({}); 
   const [similarMovies, setSimilarMovies] = useState([]); // ✅ Similar movies state
   const [newLink, setNewLink] = useState('');
   const [newQuality, setNewQuality] = useState('');
@@ -33,6 +33,21 @@ export default function MovieDetails() {
   const [playMovie, setPlayMovie] = useState(false);
   const moviePlayerRef = useRef(null);
   const [providerIndex, setProviderIndex] = useState(0);
+  const playerContainerRef = useRef(null);
+
+const handleFullscreen = () => {
+  const el = playerContainerRef.current;
+
+  if (!el) return;
+
+  if (el.requestFullscreen) {
+    el.requestFullscreen();
+  } else if (el.webkitRequestFullscreen) {
+    el.webkitRequestFullscreen();
+  } else if (el.msRequestFullscreen) {
+    el.msRequestFullscreen();
+  }
+};
 
 
   useEffect(() => {
@@ -305,21 +320,21 @@ if (movieRes.data.genres) {
         Watch Movie
       </h2>
 
-      <div className="player-wrapper">
+      <div className="player-wrapper" ref={playerContainerRef}>
         <iframe
   key={providerIndex}
   title={`movie-player-${movie.id}`}
   src={providers[providerIndex](movie.id)}
-  width="100%"
-  height="500"
   allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
   allowFullScreen
   referrerPolicy="origin"
   style={{
+    width: "100%",
+    height: "100%",
     border: "none",
     borderRadius: "12px",
   }}
-></iframe>
+/>
       </div>
 
       {/* Manual switch button */}
@@ -342,7 +357,12 @@ if (movieRes.data.genres) {
   >
     🔄 Switch Server
   </button>
-
+<button
+  onClick={handleFullscreen}
+  className="player-action-btn"
+>
+  ⛶ Full Screen
+</button>
   {/* Open External Player */}
   <button
     onClick={() =>
@@ -360,7 +380,6 @@ if (movieRes.data.genres) {
     </div>
   </div>
 )}
-
 
       {/* Download Links */}
       {Object.keys(downloadLinks).length > 0 && (
