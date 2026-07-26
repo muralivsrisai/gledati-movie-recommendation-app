@@ -208,6 +208,16 @@ if (movieRes.data.genres) {
   const trailer = movie.videos.results.find((v) => v.type === 'Trailer');
   const director = movie.credits.crew.find((crew) => crew.job === 'Director');
 
+  const getGoogleDrivePreview = (url) => {
+  if (!url) return null;
+
+  const match = url.match(/\/d\/([^/]+)/);
+
+  if (!match) return null;
+
+  return `https://drive.google.com/file/d/${match[1]}/preview`;
+};
+
   return (
     <div className="details-container">
       {/* Hero */}
@@ -311,6 +321,37 @@ if (movieRes.data.genres) {
           <Trailer videoKey={trailer.key} />
         </div>
       )}
+
+{/* Google Drive Player */}
+{downloadLinks.gdrive && (
+  <div className="movie-player-section">
+    <div className="responsive-player">
+      <h2
+        style={{
+          marginBottom: "15px",
+          textAlign: "center",
+        }}
+      >
+        🎬 Watch Full Movie
+      </h2>
+
+      <div className="player-wrapper">
+        <iframe
+          src={getGoogleDrivePreview(downloadLinks.gdrive)}
+          width="100%"
+          height="700"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          frameBorder="0"
+          style={{
+            border: "none",
+            borderRadius: "12px",
+          }}
+        />
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Watch Movie - VidKing Player */}
 {playMovie && (
