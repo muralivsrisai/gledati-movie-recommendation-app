@@ -339,18 +339,15 @@ if (movieRes.data.genres) {
       </h2>
 
       <div className="player-wrapper">
-        <iframe
-          src={getGoogleDrivePreview(downloadLinks.gdrive)}
-          width="100%"
-          
-          allow="autoplay; fullscreen"
-          allowFullScreen
-          frameBorder="0"
-          style={{
-            border: "none",
-            borderRadius: "12px",
-          }}
-        />
+        
+<iframe
+  title={`google-drive-player-${movie.id}`}
+  src={getGoogleDrivePreview(downloadLinks.gdrive)}
+  allow="autoplay; fullscreen"
+  allowFullScreen
+  className="movie-iframe"
+/>
+
       </div>
     </div>
   </div>
