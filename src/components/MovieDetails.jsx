@@ -355,73 +355,96 @@ if (movieRes.data.genres) {
 
       {/* Watch Movie - VidKing Player */}
 {playMovie && (
-  <div className="movie-player-section" ref={moviePlayerRef}>
-    <div className="responsive-player">
-      <h2 style={{ marginBottom: "15px", textAlign: "center" }}>
-        Watch Movie
-      </h2>
+  <section className="movie-player-section" ref={moviePlayerRef}>
+    <div className="movie-player-container">
 
-      <div className="player-wrapper" ref={playerContainerRef}>
-        <iframe
-  key={providerIndex}
-  title={`movie-player-${movie.id}`}
-  src={providers[providerIndex](movie.id)}
-  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-  allowFullScreen
-  referrerPolicy="origin"
-  style={{
-    width: "100%",
-    height: "100%",
-    border: "none",
-    borderRadius: "12px",
-  }}
-/>
+      {/* Header */}
+      <div className="movie-player-header">
+        <div>
+          <span className="player-eyebrow">NOW PLAYING</span>
+          <h2>Watch Movie</h2>
+        </div>
+
+        <span className="server-status">
+          ● Server {providerIndex + 1}
+        </span>
       </div>
 
-      {/* Manual switch button */}
+      {/* Responsive Player */}
       <div
-  style={{
-    textAlign: "center",
-    marginTop: "10px",
-    display: "flex",
-    justifyContent: "center",
-    gap: "12px",
-    flexWrap: "wrap",
-  }}
->
-  {/* Switch Server */}
-  <button
-    onClick={() =>
-      setProviderIndex((prev) => (prev + 1) % providers.length)
-    }
-    className="player-action-btn"
-  >
-    🔄 Switch Server
-  </button>
-<button
-  onClick={handleFullscreen}
-  className="player-action-btn"
->
-  ⛶ Full Screen
-</button>
-  {/* Open External Player */}
-  <button
-    onClick={() =>
-      window.open(
-        providers[providerIndex](movie.id),
-        "_blank",
-        "noopener,noreferrer"
-      )
-    }
-    className="player-action-btn"
-  >
-    ↗ Open External Player
-  </button>
-</div>
-    </div>
-  </div>
-)}
+        className="player-wrapper"
+        ref={playerContainerRef}
+      >
+        <iframe
+          key={providerIndex}
+          title={`movie-player-${movie.id}`}
+          src={providers[providerIndex](movie.id)}
+          allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+          allowFullScreen
+          referrerPolicy="origin"
+          className="movie-iframe"
+        />
 
+        {/* Loading/overlay gradient */}
+        <div className="player-overlay" />
+      </div>
+
+      {/* Controls */}
+      <div className="player-controls">
+
+        <button
+          onClick={() =>
+            setProviderIndex(
+              (prev) => (prev + 1) % providers.length
+            )
+          }
+          className="player-action-btn"
+        >
+          <span>↻</span>
+          Switch Server
+        </button>
+
+        <button
+          onClick={handleFullscreen}
+          className="player-action-btn primary"
+        >
+          <span>⛶</span>
+          Full Screen
+        </button>
+
+        <button
+          onClick={() =>
+            window.open(
+              providers[providerIndex](movie.id),
+              "_blank",
+              "noopener,noreferrer"
+            )
+          }
+          className="player-action-btn"
+        >
+          <span>↗</span>
+          External Player
+        </button>
+
+      </div>
+
+      {/* Server indicator */}
+      <div className="server-indicators">
+        {providers.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setProviderIndex(index)}
+            className={`server-dot ${
+              providerIndex === index ? "active" : ""
+            }`}
+            aria-label={`Switch to server ${index + 1}`}
+          />
+        ))}
+      </div>
+
+    </div>
+  </section>
+)}
       {/* Download Links */}
       {Object.keys(downloadLinks).length > 0 && (
         <div className="download-link-section">
