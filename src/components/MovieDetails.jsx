@@ -5,6 +5,7 @@ import Trailer from './Trailer';
 import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
 import './MovieDetails.css';
+import './MoviePlayer.css';
 import { BACKEND_URL } from '../config';
 import { Atom } from 'react-loading-indicators';
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,9 +19,11 @@ export default function MovieDetails() {
   const location = useLocation();
   const trailerRef = useRef(null);
   const providers = [
-  (id) => `https://www.vidking.net/embed/movie/${id}?sub=default`,
-  (id) => `https://vidsrc.to/embed/movie/${id}?subs=1`,
+  (id) => `https://www.vidy.st/movie/${id}?subs=true`,
+  (id) => `https://www.vidfast.vc/movie/${id}?subs=true`,
+  (id) => `https://vidsrc.mov/embed/movie/${id}`,
   (id) => `https://2embed.cc/embed/${id}?subs=true`,
+  
 ];
 
   const [movie, setMovie] = useState(null);
@@ -324,8 +327,8 @@ if (movieRes.data.genres) {
 
 {/* Google Drive Player */}
 {downloadLinks.gdrive && (
-  <div className="movie-player-section">
-    <div className="responsive-player">
+ <div className="movie-player-section">
+  <div className="movie-player-container">
       <h2
         style={{
           marginBottom: "15px",
@@ -339,7 +342,7 @@ if (movieRes.data.genres) {
         <iframe
           src={getGoogleDrivePreview(downloadLinks.gdrive)}
           width="100%"
-          height="700"
+          
           allow="autoplay; fullscreen"
           allowFullScreen
           frameBorder="0"
@@ -386,7 +389,7 @@ if (movieRes.data.genres) {
         />
 
         {/* Loading/overlay gradient */}
-        <div className="player-overlay" />
+        
       </div>
 
       {/* Controls */}
