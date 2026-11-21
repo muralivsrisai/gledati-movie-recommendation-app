@@ -34,8 +34,9 @@ export default function ModalPlayer({
 
   // ⬇️ Use whatever provider you’re already using here
   const providers = [
-  (id, s, e) => `https://www.vidking.net/embed/tv/${id}/${s}/${e}?sub=default`,
-  (id, s, e) => `https://vidsrc.to/embed/tv/${id}/${s}/${e}?subs=1`,
+  (id, s, e) => `https://www.vidy.st/tv/${id}/${s}/${e}?subs=true`,
+  (id, s, e) => `https://www.vidfast.vc/tv/${id}/${s}/${e}?subs=true`,
+  (id, s, e) => `https://vidsrc.mov/embed/tv/${id}/${s}/${e}?subs=true`,
   (id, s, e) => `https://2embed.cc/embedtv/${id}/${s}/${e}?subs=true`,
 ];
 
@@ -130,7 +131,7 @@ useEffect(() => {
 
             <div className="player-wrapper">
               <iframe
-  key={providerIndex} // 🔥 forces reload
+  key={`${seriesId}-${season}-${currentEpisode}-${providerIndex}`} // 🔥 forces reload
   title={`episode-player-s${season}-e${currentEpisode}`}
   src={providers[providerIndex](seriesId, season, currentEpisode)}
   frameBorder="0"
@@ -166,13 +167,23 @@ useEffect(() => {
               </button>
             </div>
             <div style={{ textAlign: "center", marginTop: "10px" }}>
+  
+<div className="server-switch-row">
+  <span className="server-label">
+    Server {providerIndex + 1} of {providers.length}
+  </span>
+
   <button
+    type="button"
+    className="switch-server-btn"
     onClick={() =>
       setProviderIndex((prev) => (prev + 1) % providers.length)
     }
   >
-    Switch Server                 
+    ↻ Switch Server
   </button>
+</div>
+
 </div>
           </section>
         </div>
