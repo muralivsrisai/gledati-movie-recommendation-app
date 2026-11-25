@@ -38,7 +38,7 @@ export default function ModalPlayer({
   (id, s, e) => `https://www.vidfast.vc/tv/${id}/${s}/${e}?subs=true`,
   (id, s, e) => `https://vidsrc.mov/embed/tv/${id}/${s}/${e}?subs=true`,
   (id, s, e) => `https://2embed.cc/embedtv/${id}/${s}/${e}?subs=true`,
-  (id, s, e) => `https://embed.vidrift.net/tv/${id}/${s}/${e}?subs=true`,
+  (id, s, e) => `https://embed.vidrift.net/embed/tv/${id}/${s}/${e}?subs=true`,
 ];
 
 const [providerIndex, setProviderIndex] = useState(0);
