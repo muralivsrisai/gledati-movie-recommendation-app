@@ -23,7 +23,8 @@ export default function MovieDetails() {
   (id) => `https://www.vidfast.vc/movie/${id}?subs=true`,
   (id) => `https://vidsrc.mov/embed/movie/${id}`,
   (id) => `https://2embed.cc/embed/${id}?subs=true`,
-  
+    (id) => `https://embed.vidrift.net/embed/movie/${id}?subs=true`,
+    
 ];
 
   const [movie, setMovie] = useState(null);
